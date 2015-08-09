@@ -1,0 +1,7 @@
+iframe,
+.roumingLista,
+.roumingList .sidebar,
+.roumingList>br,
+.adsys {
+	display:none ! important;
+}
