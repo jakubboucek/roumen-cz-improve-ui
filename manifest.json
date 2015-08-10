@@ -25,13 +25,6 @@
 			"css": [ "roumen.css" ],
 			"js": [ "roumen.js" ],
 			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"http://www.rouming.cz/*",
-				"http://www.roumenovomaso.cz/*"
-			],
-			"js": [ "roumen-later.js" ]
 		}
 	]
 }
