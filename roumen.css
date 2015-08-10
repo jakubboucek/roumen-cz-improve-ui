@@ -2,6 +2,13 @@ iframe,
 .roumingLista,
 .roumingList .sidebar,
 .roumingList>br,
-.adsys {
+td.masoBody,
+.adsys,
+.adsbygoogle
+{
 	display:none ! important;
+}
+
+a img {
+	transition: max-width .5s ease, max-height .5s ease;
 }

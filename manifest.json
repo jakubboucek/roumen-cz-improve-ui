@@ -5,8 +5,6 @@
 	"description": "Extension for improve IU for better UX on website Roumenův rouming (http://rouming.cz/)",
 	"version": "0.1",
 	"permissions": [
-		"webRequest",
-		"webRequestBlocking",
 		"http://www.rouming.cz/*",
 		"http://www.roumenovomaso.cz/*"
 	],
@@ -18,18 +16,22 @@
 		"48": "rouming_48.png",
 		"128": "rouming_128.png"
 	},
-	"background": {
-		"scripts": [
-			"roumen.js"
-		]
-	},
 	"content_scripts": [
 		{
 			"matches": [
 				"http://www.rouming.cz/*",
 				"http://www.roumenovomaso.cz/*"
 			],
-			"css": [ "roumen.css" ]
+			"css": [ "roumen.css" ],
+			"js": [ "roumen.js" ],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"http://www.rouming.cz/*",
+				"http://www.roumenovomaso.cz/*"
+			],
+			"js": [ "roumen-later.js" ]
 		}
 	]
 }
