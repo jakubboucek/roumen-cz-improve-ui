@@ -13,3 +13,24 @@ td[height="104"]
 a img {
 	transition: max-width .5s ease, max-height .5s ease;
 }
+
+.roumingButton a,
+.masoButton a,
+.roumingForumTitle a,
+.masoForumTitle a
+{
+	display: inline-block;
+	transition: transform .2s cubic-bezier(0.1, -0.6, 0.2, 0);
+}
+
+.roumingButton a.activated,
+.masoButton a.activated
+{
+	transform: scale(1.5);
+}
+
+.roumingForumTitle a.activated,
+.masoForumTitle a.activated
+{
+	transform: scale(3);
+}
