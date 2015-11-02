@@ -4,6 +4,12 @@ if(/(rouming|maso)Show\.php/.test(location.href)) {
 	targetA.href = olderButton.href;
 	var targetImg = document.querySelector('td[height="600"] a img');
 	scaleToScreen(targetA, targetImg);
+
+	var head = document.head;
+	var prefetch = document.createElement('link');
+	prefetch.rel = 'prefetch';
+	prefetch.href = olderButton.href;
+	head.appendChild(prefetch);
 }
 
 if(/(rouming|maso)GIF\.php/.test(location.href)) {
