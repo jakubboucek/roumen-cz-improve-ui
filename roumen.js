@@ -1,3 +1,5 @@
+var scaleHandler;
+
 if(/(rouming|maso)Show\.php/.test(location.href)) {
 	var olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
 	var targetA = document.querySelector('td[height="600"] a');
@@ -32,7 +34,8 @@ function scaleToScreen(parent, img) {
 	expandIcon.title = 'Zobrazit původní velikost obrázku';
 	floatPanel.appendChild(expandIcon);
 
-	expandIcon.addEventListener('click', function(e){toggleScale(img);e.preventDefault();}, false);
+	scaleHandler = function(e){toggleScale(img);e.preventDefault();};
+	expandIcon.addEventListener('click', scaleHandler, false);
 }
 
 function toggleScale(img) {
@@ -51,18 +54,33 @@ function toggleScale(img) {
 function arrowHandler(event) {
 	var button;
 	if(event.keyCode == 39) {
-		button = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"],.roumingButton a[title="Starší GIF"]');
+		button = document.querySelector(
+			'.roumingButton a[title="Starší obrázek"],'
+			 + '.masoButton a[title="Starší obrázek"],'
+			 + '.roumingForumMessage a[title="Následující video"],'
+			 + '.roumingButton a[title="Starší GIF"]');
 	}
 	else if(event.keyCode == 37) {
-		button = document.querySelector('.roumingButton a[title="Novější obrázek"],.masoButton a[title="Novější obrázek"],.roumingButton a[title="Novější GIF"]');
+		button = document.querySelector('.roumingButton a[title="Novější obrázek"],'
+			 + '.masoButton a[title="Novější obrázek"],'
+			 + '.roumingForumMessage a[title="Předchozí video"],'
+			 + '.roumingButton a[title="Novější GIF"]');
 	}
 	else if(event.keyCode == 76) {
-		button = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],.masoButton a[title="Tento obrázek se mi líbí"],.roumingForumTitle a[title="Tento GIF je super!"],.masoForumTitle a[title="Tento GIF je super!"]');
+		button = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],'
+			 + '.masoButton a[title="Tento obrázek se mi líbí"],'
+			 + '.roumingForumTitle a[title="Tento GIF je super!"],'
+			 + '.roumingForumTitle a[title="Toto video je super!"],'
+			 + '.masoForumTitle a[title="Tento GIF je super!"]');
+	}
+	else if(event.keyCode == 80 && scaleHandler) {
+		scaleHandler();
 	}
 	if(button) {
 		button.className += ' activated';
 		window.setTimeout(function(){button.className=button.className.replace(/(\s|^)activated(\s|$)/,' ')}, 300);
 		button.click();
+		event.preventDefault();
 	}
 }
 

@@ -42,6 +42,7 @@ a img {
 .roumingButton a,
 .masoButton a,
 .roumingForumTitle a,
+.roumingForumMessage a b,
 .masoForumTitle a
 {
 	display: inline-block;
@@ -54,6 +55,7 @@ a img {
 	transform: scale(1.5);
 }
 
+.roumingForumMessage a.activated b,
 .roumingForumTitle a.activated,
 .masoForumTitle a.activated
 {
