@@ -1,4 +1,3 @@
-iframe,
 .roumingLista,
 .roumingList .sidebar,
 .roumingList>br,
@@ -9,6 +8,14 @@ td[height="104"]
 {
 	display:none ! important;
 }
+
+iframe {
+	display: none;
+}
+iframe.youtube-player {
+	display: block;
+}
+
 
 a img {
 	transition: max-width .5s ease, max-height .5s ease;
