@@ -34,7 +34,10 @@ function scaleToScreen(parent, img) {
 	expandIcon.title = 'Zobrazit původní velikost obrázku';
 	floatPanel.appendChild(expandIcon);
 
-	scaleHandler = function(e){toggleScale(img);e.preventDefault();};
+	scaleHandler = function(e){
+		toggleScale(img);
+		e.preventDefault();
+	};
 	expandIcon.addEventListener('click', scaleHandler, false);
 }
 
@@ -74,7 +77,7 @@ function arrowHandler(event) {
 			 + '.masoForumTitle a[title="Tento GIF je super!"]');
 	}
 	else if(event.keyCode == 80 && scaleHandler) {
-		scaleHandler();
+		scaleHandler(event);
 	}
 	if(button) {
 		button.classList.add('activated');
