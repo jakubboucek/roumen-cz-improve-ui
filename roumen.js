@@ -22,7 +22,7 @@ if(/(rouming|maso)GIF\.php/.test(location.href)) {
 
 function scaleToScreen(parent, img) {
 	toggleScale(img);
-	parent.className+=' scaledRouming';
+	parent.classList.add('scaledRouming');
 
 	var floatPanel = document.createElement('div');
 	floatPanel.className = 'floatPanel';
@@ -39,13 +39,13 @@ function scaleToScreen(parent, img) {
 }
 
 function toggleScale(img) {
-	if(img.className.match(/(\s|^)scaled(\s|$)/)) {
-		img.className = img.className.replace(/(\s|^)scaled(\s|$)/, ' ');
+	if(img.classList.contains('scaled')) {
+		img.className = img.classList.remove('scaled');
 		img.style.maxHeight = img.naturalHeight + 'px';
 		img.style.maxWidth = img.naturalWidth + 'px';
 	}
 	else {
-		img.className += ' scaled';
+		img.classList.add('scaled');
 		img.style.maxHeight = 'calc(100vh - ' + img.y + 'px)';
 		img.style.maxWidth = 'calc(100vw - ' + img.x + 'px)';
 	}
@@ -77,8 +77,8 @@ function arrowHandler(event) {
 		scaleHandler();
 	}
 	if(button) {
-		button.className += ' activated';
-		window.setTimeout(function(){button.className=button.className.replace(/(\s|^)activated(\s|$)/,' ')}, 300);
+		button.classList.add('activated');
+		window.setTimeout(function(){button.classList.remove('activated')}, 300);
 		button.click();
 		event.preventDefault();
 	}
