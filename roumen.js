@@ -56,27 +56,30 @@ function toggleScale(img) {
 
 function arrowHandler(event) {
 	var button;
-	if(event.keyCode == 39) {
+	if(event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+		return;
+	}
+	if(event.keyCode == 39) { // right arrow key
 		button = document.querySelector(
 			'.roumingButton a[title="Starší obrázek"],'
 			 + '.masoButton a[title="Starší obrázek"],'
 			 + '.roumingForumMessage a[title="Následující video"],'
 			 + '.roumingButton a[title="Starší GIF"]');
 	}
-	else if(event.keyCode == 37) {
+	else if(event.keyCode == 37) { // left arrow key
 		button = document.querySelector('.roumingButton a[title="Novější obrázek"],'
 			 + '.masoButton a[title="Novější obrázek"],'
 			 + '.roumingForumMessage a[title="Předchozí video"],'
 			 + '.roumingButton a[title="Novější GIF"]');
 	}
-	else if(event.keyCode == 76) {
+	else if(event.keyCode == 76) { // L key
 		button = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],'
 			 + '.masoButton a[title="Tento obrázek se mi líbí"],'
 			 + '.roumingForumTitle a[title="Tento GIF je super!"],'
 			 + '.roumingForumTitle a[title="Toto video je super!"],'
 			 + '.masoForumTitle a[title="Tento GIF je super!"]');
 	}
-	else if(event.keyCode == 80 && scaleHandler) {
+	else if(event.keyCode == 80 && scaleHandler) { // P key
 		scaleHandler(event);
 	}
 	if(button) {
