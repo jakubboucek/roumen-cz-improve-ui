@@ -22,6 +22,25 @@ if(/(rouming|maso)GIF\.php/.test(location.href)) {
 	targetA.href = olderButton.href;
 }
 
+if(/roumingVideo\.php/.test(location.href)) {
+	var panels = document.querySelectorAll('.control');
+	var target = panels[0];
+	var source = panels[1];
+	var firstTargetsChild = target.firstElementChild;
+	console.log([panels,source,target,firstTargetsChild]);
+	for(var i=0; i < source.childNodes.length; i++) {
+		var item = source.childNodes[i];
+
+		if(item.nodeType == Node.ELEMENT_NODE && item.tagName != 'SPAN') {
+			continue;
+		}
+
+		var copy = item.cloneNode(true);
+		target.insertBefore(copy, firstTargetsChild);
+	}
+	firstTargetsChild.style.display = 'inline-block';
+}
+
 function makePredictableLinks() {
 	var links = document.querySelectorAll('.roumingForumMessage a[rel="nofollow"]');
 	for(var i=0; i < links.length; i++) {
