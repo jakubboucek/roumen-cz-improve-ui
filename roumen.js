@@ -82,14 +82,14 @@ function arrowHandler(event) {
 	if(event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
 		return;
 	}
-	if(event.keyCode == 39) { // right arrow key
+	if(event.keyCode == 39 || event.keyCode == 74) { // right arrow key or J key
 		button = document.querySelector(
 			'.roumingButton a[title="Starší obrázek"],'
 			 + '.masoButton a[title="Starší obrázek"],'
 			 + '.roumingButton a[title="Následující video"],'
 			 + '.roumingButton a[title="Starší GIF"]');
 	}
-	else if(event.keyCode == 37) { // left arrow key
+	else if(event.keyCode == 37 || event.keyCode == 75) { // left arrow key or K key
 		button = document.querySelector('.roumingButton a[title="Novější obrázek"],'
 			 + '.masoButton a[title="Novější obrázek"],'
 			 + '.roumingButton a[title="Předchozí video"],'
