@@ -3,7 +3,7 @@
 
 	"name": "Rouming.cz improve UI",
 	"description": "Extension for improve IU for better UX on website Roumenův rouming (http://rouming.cz/)",
-	"version": "0.6",
+	"version": "1.0",
 	"permissions": [
 		"http://www.rouming.cz/*",
 		"http://www.roumenovomaso.cz/*"
