@@ -22,26 +22,16 @@ if(/(rouming|maso)GIF\.php/.test(location.href)) {
 	targetA.href = olderButton.href;
 }
 
-function makeRealLinks() {
-	var us = document.querySelectorAll('.roumingForumMessage u');
-	for(var i=0; i < us.length; i++) {
-		var u = us.item(i);
-		if(u.childNodes.length > 1) {
-			console.log('['+extensionName+'] Pseudolink contains more elements, unable to make real link.');
-			continue;
+function makePredictableLinks() {
+	var links = document.querySelectorAll('.roumingForumMessage a[rel="nofollow"]');
+	for(var i=0; i < links.length; i++) {
+		var a = links.item(i);
+		if(a.textContent.match(/^odkaz$/)){
+			a.textContent = a.href;
 		}
-		var link = u.textContent;
-		if(!link.match(/^\s*https?:\/\//)) {
-			console.log('['+extensionName+'] Pseudolink doesn\'t contains URL, unable to make real link.');
-			continue;
-		}
-		var a = document.createElement('a');
-		a.href=link;
-		a.appendChild(document.createTextNode(link));
-		u.parentNode.replaceChild(a, u);
 	}
 }
-makeRealLinks();
+makePredictableLinks();
 
 function scaleToScreen(parent, img) {
 	toggleScale(img);
