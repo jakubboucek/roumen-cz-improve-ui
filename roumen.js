@@ -86,13 +86,13 @@ function arrowHandler(event) {
 		button = document.querySelector(
 			'.roumingButton a[title="Starší obrázek"],'
 			 + '.masoButton a[title="Starší obrázek"],'
-			 + '.roumingForumMessage a[title="Následující video"],'
+			 + '.roumingButton a[title="Následující video"],'
 			 + '.roumingButton a[title="Starší GIF"]');
 	}
 	else if(event.keyCode == 37) { // left arrow key
 		button = document.querySelector('.roumingButton a[title="Novější obrázek"],'
 			 + '.masoButton a[title="Novější obrázek"],'
-			 + '.roumingForumMessage a[title="Předchozí video"],'
+			 + '.roumingButton a[title="Předchozí video"],'
 			 + '.roumingButton a[title="Novější GIF"]');
 	}
 	else if(event.keyCode == 76) { // L key
