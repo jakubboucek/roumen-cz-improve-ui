@@ -61,3 +61,10 @@ a img {
 {
 	transform: scale(3);
 }
+
+a.volume-button {
+	font-size: 0.8em;
+	display: inline-block;
+	margin: 0 7px 0 0;
+}
+

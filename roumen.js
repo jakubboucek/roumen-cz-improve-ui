@@ -20,6 +20,33 @@ if(/(rouming|maso)GIF\.php/.test(location.href)) {
 	var olderButton = document.querySelector('.roumingButton a[title="Starší GIF"]');
 	var targetA = document.querySelector('td.roumingForumMessage[align="center"] a,td.masoForumMessage[align="center"] a');
 	targetA.href = olderButton.href;
+
+	var video = document.querySelector("video");
+	if(video) {
+		var lajk = document.querySelector('.roumingForumTitle a[title="Tento GIF je super!"],.masoForumTitle a[title="Tento GIF je super!"]');
+		var panel = lajk.parentElement;
+
+		var setVolumeIcon = function() {
+			volume.textContent = video.muted ? "\uD83D\uDD07" : "\uD83D\uDD08";
+		}
+
+		var switchVolume = function(e) {
+			video.muted = !video.muted;
+			setVolumeIcon();
+			if(e.preventDefault) {
+				e.preventDefault();
+			}
+		}
+
+		var volume = document.createElement('a');
+		volume.href = "#toggle-volume";
+		volume.title = "Zapnout/ztišit zvuk videa";
+		volume.classList.add('volume-button');
+
+		volume.addEventListener('click', switchVolume);
+		setVolumeIcon();
+		panel.insertBefore(volume, lajk);
+	}
 }
 
 if(/roumingVideo\.php/.test(location.href)) {
