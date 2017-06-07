@@ -6,7 +6,8 @@ Install from Chrome Web Store: [**Rouming.cz improve UI**](https://chrome.google
 
 ## Features
 - Remove ads (call Roumen to paid Rouming without ads).
-- Scale big images to screen in Rouming & Maso. Press "P" to exPand it to 100%.
+- Scale big images to screen in Rouming & Maso. Press `P` key to exPand it to 100%.
 - Change link on image to older image (instead of newer image) in Rouming & Maso.
-- Allow use left&right arrow keys to move between images.
-- Un/Like image/video/gif with key "L".
+- Allow use left&right arrow keys or `J`/`K` keys to move between images.
+- Allow un/mute videos in GIFník via added icon or `M` key.
+- Un/Like image/video/gif with `L` key.
