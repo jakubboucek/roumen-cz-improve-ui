@@ -1,4 +1,5 @@
 var scaleHandler;
+var switchVolume;
 
 var extensionName = 'Rouming.cz improve UI';
 
@@ -30,11 +31,11 @@ if(/(rouming|maso)GIF\.php/.test(location.href)) {
 			volume.textContent = video.muted ? "\uD83D\uDD07" : "\uD83D\uDD08";
 		}
 
-		var switchVolume = function(e) {
+		switchVolume = function(event) {
 			video.muted = !video.muted;
 			setVolumeIcon();
-			if(e.preventDefault) {
-				e.preventDefault();
+			if(event.preventDefault) {
+				event.preventDefault();
 			}
 		}
 
@@ -140,6 +141,9 @@ function arrowHandler(event) {
 	}
 	else if(event.keyCode == 80 && scaleHandler) { // P key
 		scaleHandler(event);
+	}
+	else if(event.keyCode == 77 && switchVolume) { // M key
+		switchVolume(event);
 	}
 	if(button) {
 		button.classList.add('activated');
