@@ -1,70 +1,66 @@
 .roumingLista,
 .roumingList .sidebar,
-.roumingList>br,
+.roumingList > br,
 td.masoBody,
 .adsys,
 .adsbygoogle,
-td[height="104"]
-{
-	display:none ! important;
+td[height="104"] {
+    display: none ! important;
 }
 
 iframe {
-	display: none;
-}
-iframe.youtube-player {
-	display: block;
+    display: none;
 }
 
+iframe.youtube-player {
+    display: block;
+}
 
 a img {
-	transition: max-width .5s ease, max-height .5s ease;
+    transition: max-width .5s ease, max-height .5s ease;
 }
 
 .scaledRouming {
-	position: relative;
-	display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .scaledRouming .floatPanel {
-	position:absolute;
-	top: 10px;
-	left: 10px;
-	opacity: 0;
-	transition: opacity .4s linear;
-	z-index: 100;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    opacity: 0;
+    transition: opacity .4s linear;
+    z-index: 100;
 }
 
 .scaledRouming:hover .floatPanel {
-	opacity:1;
+    opacity: 1;
 }
 
 .roumingButton a,
 .masoButton a,
 .roumingForumTitle a,
 .roumingForumMessage a b,
-.masoForumTitle a
-{
-	display: inline-block;
-	transition: transform .2s cubic-bezier(0.1, -0.6, 0.2, 0);
+.masoForumTitle a {
+    display: inline-block;
+    transition: transform .2s cubic-bezier(0.1, -0.6, 0.2, 0);
 }
 
 .roumingButton a.activated,
-.masoButton a.activated
-{
-	transform: scale(1.5);
+.masoButton a.activated {
+    transform: scale(1.5);
 }
 
 .roumingForumMessage a.activated b,
 .roumingForumTitle a.activated,
-.masoForumTitle a.activated
-{
-	transform: scale(3);
+.masoForumTitle a.activated {
+    transform: scale(3);
 }
 
 a.volume-button {
-	font-size: 0.8em;
-	display: inline-block;
-	margin: 0 7px 0 0;
+    font-size: 0.8em;
+    display: inline-block;
+    margin: 0 7px 0 0;
 }
 
