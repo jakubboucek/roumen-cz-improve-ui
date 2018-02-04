@@ -1,7 +1,28 @@
 var scaleHandler;
 var switchVolume;
 
-var extensionName = 'Rouming.cz improve UI';
+chrome.storage.sync.get({
+    showSidebar: true
+}, function (options) {
+    if (options.showSidebar === true) {
+        document.body.classList.add('showSidebar');
+    }
+});
+
+chrome.storage.onChanged.addListener(function (changes, areaName) {
+    if (areaName !== 'sync') return;
+
+    if (changes.showSidebar) {
+        var value = changes.showSidebar.newValue;
+
+        if (value) {
+            document.body.classList.add('showSidebar');
+        }
+        else {
+            document.body.classList.remove('showSidebar');
+        }
+    }
+});
 
 if (/(rouming|maso)Show\.php/.test(location.href)) {
     var olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');

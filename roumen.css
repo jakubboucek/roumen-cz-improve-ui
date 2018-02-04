@@ -5,8 +5,19 @@ td.masoBody,
 .adsys,
 .adsbygoogle,
 td[height="104"] {
-    display: none ! important;
+    display: none;
 }
+
+.roumingList .sidebar {
+    display: none;
+}
+
+.showSidebar .roumingList .sidebar {
+    display: table-cell;
+}
+
+
+
 
 iframe {
     display: none;
