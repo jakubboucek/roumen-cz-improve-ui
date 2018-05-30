@@ -1,4 +1,4 @@
-# [Rouming.cz](http://www.rouming.cz/) improve UI
+# [Rouming.cz](https://www.rouming.cz/) improve UI
 Google Chrome extension for improve IU for better UX
 
 ## Install to Google Chrome
