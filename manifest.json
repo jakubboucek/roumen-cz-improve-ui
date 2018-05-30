@@ -4,9 +4,7 @@
     "description": "Extension for improve IU for better UX on website Roumenův rouming (https://rouming.cz/)",
     "version": "1.3.0",
     "permissions": [
-        "storage",
-        "https://www.rouming.cz/*",
-        "https://www.roumenovomaso.cz/*"
+        "storage"
     ],
     "author": "Jakub Bouček",
     "homepage_url": "https://github.com/jakubboucek/roumen-cz-improve-ui",
@@ -27,8 +25,8 @@
     "content_scripts": [
         {
             "matches": [
-                "https://www.rouming.cz/*",
-                "https://www.roumenovomaso.cz/*"
+                "*://www.rouming.cz/*",
+                "*://www.roumenovomaso.cz/*"
             ],
             "css": [
                 "roumen.css"
