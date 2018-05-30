@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
     "name": "Rouming.cz improve UI",
-    "description": "Extension for improve IU for better UX on website Roumenův rouming (http://rouming.cz/)",
-    "version": "1.2.0",
+    "description": "Extension for improve IU for better UX on website Roumenův rouming (https://rouming.cz/)",
+    "version": "1.3.0",
     "permissions": [
         "storage",
         "https://www.rouming.cz/*",
