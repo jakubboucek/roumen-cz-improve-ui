@@ -5,8 +5,8 @@
     "version": "1.2.0",
     "permissions": [
         "storage",
-        "http://www.rouming.cz/*",
-        "http://www.roumenovomaso.cz/*"
+        "https://www.rouming.cz/*",
+        "https://www.roumenovomaso.cz/*"
     ],
     "author": "Jakub Bouček",
     "homepage_url": "https://github.com/jakubboucek/roumen-cz-improve-ui",
@@ -27,8 +27,8 @@
     "content_scripts": [
         {
             "matches": [
-                "http://www.rouming.cz/*",
-                "http://www.roumenovomaso.cz/*"
+                "https://www.rouming.cz/*",
+                "https://www.roumenovomaso.cz/*"
             ],
             "css": [
                 "roumen.css"
