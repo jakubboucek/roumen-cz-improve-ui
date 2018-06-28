@@ -1,23 +1,29 @@
 window.addEventListener('load', init);
 
 function init() {
-    var check = document.querySelector('#show-sidebar');
-
-    chrome.storage.sync.get({
-        showSidebar: true
-    }, function (options) {
-        check.checked = options.showSidebar;
-    });
-
-    check.addEventListener('click', updateCheck);
+    registerOption('#show-sidebar', 'showSidebar', true);
+    registerOption('#default-gif-sound', 'enableGifSound', false);
 }
 
-function updateCheck(event, event2) {
-    var check = document.querySelector('#show-sidebar');
+function registerOption(checkboxSelector, optionsKey, defaultValue, callback) {
+    var check = document.querySelector(checkboxSelector);
 
-    chrome.storage.sync.set({
-        showSidebar: check.checked
-    }, function () {
-        //
+    var query = {};
+    query[optionsKey] = defaultValue;
+
+    chrome.storage.sync.get(query, function (options) {
+        check.checked = options[optionsKey];
+    });
+
+    check.addEventListener('click', function () {
+        var query = {};
+        query[optionsKey] = check.checked;
+
+        chrome.storage.sync.set(query, function () {
+            if(callback) {
+                callback();
+            }
+        });
     });
 }
+

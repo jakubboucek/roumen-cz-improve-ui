@@ -1,5 +1,7 @@
 var scaleHandler;
 var switchVolume;
+var olderButton;
+var targetA;
 
 chrome.storage.sync.get({
     showSidebar: true
@@ -25,8 +27,8 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
 });
 
 if (/(rouming|maso)Show\.php/.test(location.href)) {
-    var olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
-    var targetA = document.querySelector('td[height="600"] a');
+    olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
+    targetA = document.querySelector('td[height="600"] a');
     targetA.href = olderButton.href;
     var targetImg = document.querySelector('td[height="600"] a img');
     scaleToScreen(targetA, targetImg);
@@ -39,8 +41,8 @@ if (/(rouming|maso)Show\.php/.test(location.href)) {
 }
 
 if (/(rouming|maso)GIF\.php/.test(location.href)) {
-    var olderButton = document.querySelector('.roumingButton a[title="Starší GIF"]');
-    var targetA = document.querySelector('td.roumingForumMessage[align="center"] a,td.masoForumMessage[align="center"] a');
+    olderButton = document.querySelector('.roumingButton a[title="Starší GIF"]');
+    targetA = document.querySelector('td.roumingForumMessage[align="center"] a,td.masoForumMessage[align="center"] a');
     targetA.href = olderButton.href;
 
     var video = document.querySelector("video");
@@ -50,15 +52,15 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
 
         var setVolumeIcon = function () {
             volume.textContent = video.muted ? "\uD83D\uDD07" : "\uD83D\uDD08";
-        }
+        };
 
         switchVolume = function (event) {
             video.muted = !video.muted;
             setVolumeIcon();
-            if (event.preventDefault) {
+            if (event && event.preventDefault) {
                 event.preventDefault();
             }
-        }
+        };
 
         var volume = document.createElement('a');
         volume.href = "#toggle-volume";
@@ -68,6 +70,14 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
         volume.addEventListener('click', switchVolume);
         setVolumeIcon();
         panel.insertBefore(volume, lajk);
+
+        chrome.storage.sync.get({
+            enableGifSound: false
+        }, function (options) {
+            if (options.enableGifSound === true) {
+                switchVolume();
+            }
+        });
     }
 }
 
@@ -80,7 +90,7 @@ if (/roumingVideo\.php/.test(location.href)) {
     for (var i = 0; i < source.childNodes.length; i++) {
         var item = source.childNodes[i];
 
-        if (item.nodeType == Node.ELEMENT_NODE && item.tagName != 'SPAN') {
+        if (item.nodeType === Node.ELEMENT_NODE && item.tagName !== 'SPAN') {
             continue;
         }
 
@@ -141,30 +151,30 @@ function arrowHandler(event) {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
         return;
     }
-    if (event.keyCode == 39 || event.keyCode == 74) { // right arrow key or J key
+    if (event.keyCode === 39 || event.keyCode === 74) { // right arrow key or J key
         button = document.querySelector(
             '.roumingButton a[title="Starší obrázek"],'
             + '.masoButton a[title="Starší obrázek"],'
             + '.roumingButton a[title="Následující video"],'
             + '.roumingButton a[title="Starší GIF"]');
     }
-    else if (event.keyCode == 37 || event.keyCode == 75) { // left arrow key or K key
+    else if (event.keyCode === 37 || event.keyCode === 75) { // left arrow key or K key
         button = document.querySelector('.roumingButton a[title="Novější obrázek"],'
             + '.masoButton a[title="Novější obrázek"],'
             + '.roumingButton a[title="Předchozí video"],'
             + '.roumingButton a[title="Novější GIF"]');
     }
-    else if (event.keyCode == 76) { // L key
+    else if (event.keyCode === 76) { // L key
         button = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],'
             + '.masoButton a[title="Tento obrázek se mi líbí"],'
             + '.roumingForumTitle a[title="Tento GIF je super!"],'
             + '.roumingForumTitle a[title="Toto video je super!"],'
             + '.masoForumTitle a[title="Tento GIF je super!"]');
     }
-    else if (event.keyCode == 80 && scaleHandler) { // P key
+    else if (event.keyCode === 80 && scaleHandler) { // P key
         scaleHandler(event);
     }
-    else if (event.keyCode == 77 && switchVolume) { // M key
+    else if (event.keyCode === 77 && switchVolume) { // M key
         switchVolume(event);
     }
     if (button) {
