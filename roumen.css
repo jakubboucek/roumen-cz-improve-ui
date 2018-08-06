@@ -5,7 +5,7 @@ td.masoBody,
 .adsys,
 .adsbygoogle,
 td[height="104"] {
-    display: none;
+    display: none !important;
 }
 
 .roumingList .sidebar {
