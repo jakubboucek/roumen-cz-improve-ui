@@ -164,12 +164,19 @@ function arrowHandler(event) {
             + '.roumingButton a[title="Předchozí video"],'
             + '.roumingButton a[title="Novější GIF"]');
     }
-    else if (event.code === 'KeyL') { // L key
+    else if (event.code === 'KeyL') {
         button = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],'
             + '.masoButton a[title="Tento obrázek se mi líbí"],'
             + '.roumingForumTitle a[title="Tento GIF je super!"],'
             + '.roumingForumTitle a[title="Toto video je super!"],'
             + '.masoForumTitle a[title="Tento GIF je super!"]');
+    }
+    else if (event.code === 'KeyR') {
+        button = document.querySelector('.roumingButton a[title="Zobrazit náhodně jiný obrázek"],'
+            + '.masoButton a[title="Zobrazit jiný obrázek"],'
+            + '.roumingSubMenu a[href="roumingVideo.php?action=random"],'
+            + '.roumingList .mw800 .control a[title="Zobrazit jiný GIF"],'
+            + '.masoList a[title="Zobrazit jiný GIF"]');
     }
     else if (event.code === 'KeyP' && scaleHandler) { // P key
         scaleHandler(event);

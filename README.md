@@ -12,3 +12,4 @@ Install from Chrome Web Store: [**Rouming.cz improve UI**](https://chrome.google
 - Allow un/mute videos in GIFník via added icon or `M` key.
 - Allow to unmute on all GIFs by default 
 - Un/Like image/video/gif with `L` key.
+- Open Random image/video/gif with `R` key.  
