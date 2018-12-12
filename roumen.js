@@ -1,4 +1,5 @@
 var scaleHandler;
+var saveHandler;
 var switchVolume;
 var olderButton;
 var targetA;
@@ -19,8 +20,7 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
 
         if (value) {
             document.body.classList.add('showSidebar');
-        }
-        else {
+        } else {
             document.body.classList.remove('showSidebar');
         }
     }
@@ -32,6 +32,7 @@ if (/(rouming|maso)Show\.php/.test(location.href)) {
     targetA.href = olderButton.href;
     var targetImg = document.querySelector('td[height="600"] a img');
     scaleToScreen(targetA, targetImg);
+    setSaveHandler(targetImg);
 
     var head = document.head;
     var prefetch = document.createElement('link');
@@ -45,7 +46,7 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
     targetA = document.querySelector('td.roumingForumMessage[align="center"] a,td.masoForumMessage[align="center"] a');
     targetA.href = olderButton.href;
 
-    var video = document.querySelector("video");
+    var video = targetA.querySelector("video");
     if (video) {
         var lajk = document.querySelector('.roumingForumTitle a[title="Tento GIF je super!"],.masoForumTitle a[title="Tento GIF je super!"]');
         var panel = lajk.parentElement;
@@ -78,6 +79,19 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
                 switchVolume();
             }
         });
+
+        if (video.src !== "") {
+            setSaveHandler(video);
+        } else {
+            var source;
+            if(source = video.querySelector("source")) {
+                setSaveHandler(source);
+            }
+        }
+    }
+    else {
+        var gif = targetA.querySelector('img[border="0"]');
+        setSaveHandler(gif);
     }
 }
 
@@ -138,12 +152,22 @@ function toggleScale(img) {
         img.className = img.classList.remove('scaled');
         img.style.maxHeight = img.naturalHeight + 'px';
         img.style.maxWidth = img.naturalWidth + 'px';
-    }
-    else {
+    } else {
         img.classList.add('scaled');
         img.style.maxHeight = 'calc(100vh - ' + img.y + 'px)';
         img.style.maxWidth = 'calc(100vw - ' + img.x + 'px)';
     }
+}
+
+function setSaveHandler(img) {
+    saveHandler = function () {
+        var link = document.createElement('a');
+        link.setAttribute("href", img.src);
+        link.setAttribute("download", "");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 }
 
 function arrowHandler(event) {
@@ -157,25 +181,23 @@ function arrowHandler(event) {
             + '.masoButton a[title="Starší obrázek"],'
             + '.roumingButton a[title="Následující video"],'
             + '.roumingButton a[title="Starší GIF"]');
-    }
-    else if (event.code === 'ArrowLeft' || event.code === 'KeyK') {
+    } else if (event.code === 'ArrowLeft' || event.code === 'KeyK') {
         button = document.querySelector('.roumingButton a[title="Novější obrázek"],'
             + '.masoButton a[title="Novější obrázek"],'
             + '.roumingButton a[title="Předchozí video"],'
             + '.roumingButton a[title="Novější GIF"]');
-    }
-    else if (event.code === 'KeyL') { // L key
+    } else if (event.code === 'KeyL') { // L key
         button = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],'
             + '.masoButton a[title="Tento obrázek se mi líbí"],'
             + '.roumingForumTitle a[title="Tento GIF je super!"],'
             + '.roumingForumTitle a[title="Toto video je super!"],'
             + '.masoForumTitle a[title="Tento GIF je super!"]');
-    }
-    else if (event.code === 'KeyP' && scaleHandler) { // P key
+    } else if (event.code === 'KeyP' && scaleHandler) {
         scaleHandler(event);
-    }
-    else if (event.code === 'KeyM' && switchVolume) { // M key
+    } else if (event.code === 'KeyM' && switchVolume) {
         switchVolume(event);
+    } else if (event.code === 'KeyS' && saveHandler) {
+        saveHandler(event);
     }
     if (button) {
         button.classList.add('activated');
