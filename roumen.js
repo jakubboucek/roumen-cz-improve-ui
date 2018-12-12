@@ -151,30 +151,30 @@ function arrowHandler(event) {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
         return;
     }
-    if (event.keyCode === 39 || event.keyCode === 74) { // right arrow key or J key
+    if (event.code === 'ArrowRight' || event.code === 'KeyJ') {
         button = document.querySelector(
             '.roumingButton a[title="Starší obrázek"],'
             + '.masoButton a[title="Starší obrázek"],'
             + '.roumingButton a[title="Následující video"],'
             + '.roumingButton a[title="Starší GIF"]');
     }
-    else if (event.keyCode === 37 || event.keyCode === 75) { // left arrow key or K key
+    else if (event.code === 'ArrowLeft' || event.code === 'KeyK') {
         button = document.querySelector('.roumingButton a[title="Novější obrázek"],'
             + '.masoButton a[title="Novější obrázek"],'
             + '.roumingButton a[title="Předchozí video"],'
             + '.roumingButton a[title="Novější GIF"]');
     }
-    else if (event.keyCode === 76) { // L key
+    else if (event.code === 'KeyL') { // L key
         button = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],'
             + '.masoButton a[title="Tento obrázek se mi líbí"],'
             + '.roumingForumTitle a[title="Tento GIF je super!"],'
             + '.roumingForumTitle a[title="Toto video je super!"],'
             + '.masoForumTitle a[title="Tento GIF je super!"]');
     }
-    else if (event.keyCode === 80 && scaleHandler) { // P key
+    else if (event.code === 'KeyP' && scaleHandler) { // P key
         scaleHandler(event);
     }
-    else if (event.keyCode === 77 && switchVolume) { // M key
+    else if (event.code === 'KeyM' && switchVolume) { // M key
         switchVolume(event);
     }
     if (button) {
