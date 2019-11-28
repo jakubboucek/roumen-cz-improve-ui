@@ -7,7 +7,6 @@ window.addEventListener('load', init);
 
 function init() {
     registerOption('#show-sidebar', 'showSidebar', true);
-    registerOption('#default-gif-sound', 'enableGifSound', false);
 }
 
 function registerOption(checkboxSelector, optionsKey, defaultValue, callback) {
@@ -29,6 +28,6 @@ function registerOption(checkboxSelector, optionsKey, defaultValue, callback) {
                 callback();
             }
         });
-    });
+    }, {passive: true});
 }
 

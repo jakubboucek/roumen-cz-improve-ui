@@ -58,38 +58,6 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
 
     const video = targetA.querySelector("video");
     if (video) {
-        const lajk = document.querySelector('.roumingForumTitle a[title="Tento GIF je super!"],.masoForumTitle a[title="Tento GIF je super!"]');
-        const panel = lajk.parentElement;
-
-        const setVolumeIcon = function () {
-            volume.textContent = video.muted ? "\uD83D\uDD07" : "\uD83D\uDD08";
-        };
-
-        switchVolume = function (event) {
-            video.muted = !video.muted;
-            setVolumeIcon();
-            if (event && event.preventDefault) {
-                event.preventDefault();
-            }
-        };
-
-        const volume = document.createElement('a');
-        volume.href = "#toggle-volume";
-        volume.title = "Zapnout/ztišit zvuk videa";
-        volume.classList.add('volume-button');
-
-        volume.addEventListener('click', switchVolume);
-        setVolumeIcon();
-        panel.insertBefore(volume, lajk);
-
-        chrome.storage.sync.get({
-            enableGifSound: false
-        }, function (options) {
-            if (options.enableGifSound === true) {
-                switchVolume();
-            }
-        });
-
         if (video.src !== "") {
             setSaveHandler(video);
         } else {
@@ -153,7 +121,7 @@ function scaleToScreen(parent, img) {
         toggleScale(img);
         e.preventDefault();
     };
-    expandIcon.addEventListener('click', scaleHandler, false);
+    expandIcon.addEventListener('click', scaleHandler, {capture: false, passive: false});
 }
 
 function toggleScale(img) {
@@ -209,8 +177,10 @@ function arrowHandler(event) {
             + '.masoList a[title="Zobrazit jiný GIF"]');
     } else if (event.code === 'KeyP' && scaleHandler) {
         scaleHandler(event);
-    } else if (event.code === 'KeyM' && switchVolume) {
-        switchVolume(event);
+    } else if (event.code === 'KeyM') {
+        button = document.querySelector(
+            '.roumingButton a[name="audioSwitch"],'
+            + '.masoButton a[name="audioSwitch"]');
     } else if (event.code === 'KeyS' && saveHandler) {
         saveHandler(event);
     }
@@ -224,4 +194,4 @@ function arrowHandler(event) {
     }
 }
 
-window.addEventListener('keydown', arrowHandler, true);
+window.addEventListener('keydown', arrowHandler, {capture: true, passive: false});
