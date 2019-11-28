@@ -1,8 +1,17 @@
-var scaleHandler;
-var saveHandler;
-var switchVolume;
-var olderButton;
-var targetA;
+/**
+ * @var chrome
+ * @see https://developer.chrome.com/extensions/api_index
+ */
+/** @var chrome.storage.onChanged */
+/** @var chrome.storage.onChanged.addListener */
+/** @var chrome.extension */
+/** @var chrome.extension.getUrl */
+
+let scaleHandler;
+let saveHandler;
+let switchVolume;
+let olderButton;
+let targetA;
 
 chrome.storage.sync.get({
     showSidebar: true
@@ -16,7 +25,7 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
     if (areaName !== 'sync') return;
 
     if (changes.showSidebar) {
-        var value = changes.showSidebar.newValue;
+        const value = changes.showSidebar.newValue;
 
         if (value) {
             document.body.classList.add('showSidebar');
@@ -30,12 +39,13 @@ if (/(rouming|maso)Show\.php/.test(location.href)) {
     olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
     targetA = document.querySelector('td[height="600"] a');
     targetA.href = olderButton.href;
-    var targetImg = document.querySelector('td[height="600"] a img');
+
+    const targetImg = document.querySelector('td[height="600"] a img');
     scaleToScreen(targetA, targetImg);
     setSaveHandler(targetImg);
 
-    var head = document.head;
-    var prefetch = document.createElement('link');
+    const head = document.head;
+    const prefetch = document.createElement('link');
     prefetch.rel = 'prefetch';
     prefetch.href = olderButton.href;
     head.appendChild(prefetch);
@@ -46,12 +56,12 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
     targetA = document.querySelector('td.roumingForumMessage[align="center"] a,td.masoForumMessage[align="center"] a');
     targetA.href = olderButton.href;
 
-    var video = targetA.querySelector("video");
+    const video = targetA.querySelector("video");
     if (video) {
-        var lajk = document.querySelector('.roumingForumTitle a[title="Tento GIF je super!"],.masoForumTitle a[title="Tento GIF je super!"]');
-        var panel = lajk.parentElement;
+        const lajk = document.querySelector('.roumingForumTitle a[title="Tento GIF je super!"],.masoForumTitle a[title="Tento GIF je super!"]');
+        const panel = lajk.parentElement;
 
-        var setVolumeIcon = function () {
+        const setVolumeIcon = function () {
             volume.textContent = video.muted ? "\uD83D\uDD07" : "\uD83D\uDD08";
         };
 
@@ -63,7 +73,7 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
             }
         };
 
-        var volume = document.createElement('a');
+        const volume = document.createElement('a');
         volume.href = "#toggle-volume";
         volume.title = "Zapnout/ztišit zvuk videa";
         volume.classList.add('volume-button');
@@ -83,41 +93,40 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
         if (video.src !== "") {
             setSaveHandler(video);
         } else {
-            var source;
-            if(source = video.querySelector("source")) {
+            const source = video.querySelector("source");
+            if (source) {
                 setSaveHandler(source);
             }
         }
-    }
-    else {
-        var gif = targetA.querySelector('img[border="0"]');
+    } else {
+        const gif = targetA.querySelector('img[border="0"]');
         setSaveHandler(gif);
     }
 }
 
 if (/roumingVideo\.php/.test(location.href)) {
-    var panels = document.querySelectorAll('.control');
-    var target = panels[0];
-    var source = panels[1];
-    var firstTargetsChild = target.firstElementChild;
+    const panels = document.querySelectorAll('.control');
+    const target = panels[0];
+    const source = panels[1];
+    const firstTargetsChild = target.firstElementChild;
     console.log([panels, source, target, firstTargetsChild]);
-    for (var i = 0; i < source.childNodes.length; i++) {
-        var item = source.childNodes[i];
+    for (let i = 0; i < source.childNodes.length; i++) {
+        const item = source.childNodes[i];
 
         if (item.nodeType === Node.ELEMENT_NODE && item.tagName !== 'SPAN') {
             continue;
         }
 
-        var copy = item.cloneNode(true);
+        const copy = item.cloneNode(true);
         target.insertBefore(copy, firstTargetsChild);
     }
     firstTargetsChild.style.display = 'inline-block';
 }
 
 function makePredictableLinks() {
-    var links = document.querySelectorAll('.roumingForumMessage a[rel="nofollow"]');
-    for (var i = 0; i < links.length; i++) {
-        var a = links.item(i);
+    const links = document.querySelectorAll('.roumingForumMessage a[rel="nofollow"]');
+    for (let i = 0; i < links.length; i++) {
+        const a = links.item(i);
         if (a.textContent.match(/^odkaz$/)) {
             a.textContent = a.href;
         }
@@ -130,11 +139,11 @@ function scaleToScreen(parent, img) {
     toggleScale(img);
     parent.classList.add('scaledRouming');
 
-    var floatPanel = document.createElement('div');
+    const floatPanel = document.createElement('div');
     floatPanel.className = 'floatPanel';
     parent.appendChild(floatPanel);
 
-    var expandIcon = document.createElement('img');
+    const expandIcon = document.createElement('img');
     expandIcon.src = chrome.extension.getURL('/expand.svg');
     expandIcon.width = 24;
     expandIcon.title = 'Zobrazit původní velikost obrázku';
@@ -161,7 +170,7 @@ function toggleScale(img) {
 
 function setSaveHandler(img) {
     saveHandler = function () {
-        var link = document.createElement('a');
+        const link = document.createElement('a');
         link.setAttribute("href", img.src);
         link.setAttribute("download", "");
         document.body.appendChild(link);
@@ -171,7 +180,7 @@ function setSaveHandler(img) {
 }
 
 function arrowHandler(event) {
-    var button;
+    let button;
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
         return;
     }

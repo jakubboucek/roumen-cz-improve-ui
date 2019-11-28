@@ -1,3 +1,8 @@
+/**
+ * @var chrome
+ * @see https://developer.chrome.com/extensions/api_index
+ */
+
 window.addEventListener('load', init);
 
 function init() {
@@ -6,9 +11,9 @@ function init() {
 }
 
 function registerOption(checkboxSelector, optionsKey, defaultValue, callback) {
-    var check = document.querySelector(checkboxSelector);
+    const check = document.querySelector(checkboxSelector);
 
-    var query = {};
+    const query = {};
     query[optionsKey] = defaultValue;
 
     chrome.storage.sync.get(query, function (options) {
@@ -16,7 +21,7 @@ function registerOption(checkboxSelector, optionsKey, defaultValue, callback) {
     });
 
     check.addEventListener('click', function () {
-        var query = {};
+        const query = {};
         query[optionsKey] = check.checked;
 
         chrome.storage.sync.set(query, function () {
