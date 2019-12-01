@@ -180,7 +180,8 @@ function arrowHandler(event) {
     } else if (event.code === 'KeyM') {
         button = document.querySelector(
             '.roumingButton a[name="audioSwitch"],'
-            + '.masoButton a[name="audioSwitch"]');
+            + '.roumingButton a[title="Vypnout audio"],'
+            + '.roumingButton a[title="Zapnout audio"]');
     } else if (event.code === 'KeyS' && saveHandler) {
         saveHandler(event);
     }
