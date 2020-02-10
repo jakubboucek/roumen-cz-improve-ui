@@ -10,7 +10,7 @@ Install from Chrome Web Store: [**Rouming.cz improve UI**](https://chrome.google
 - Change link on image to older image (instead of newer image) in Rouming & Maso.
 - Allow use left&right arrow keys or `J`/`K` keys to move between images.
 - Allow un/mute videos in GIFník via added icon or `M` key.
-- Allow to unmute on all GIFs by default 
 - Un/Like image/video/gif with `L` key
 - Open Random image/video/gif with `R` key.  
 - Save image as file, or open source of video/gif with `S` key
+- De-obfuscating links in forum and comments
