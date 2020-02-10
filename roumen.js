@@ -9,7 +9,6 @@
 
 let scaleHandler;
 let saveHandler;
-let switchVolume;
 let olderButton;
 let targetA;
 
@@ -77,7 +76,7 @@ if (/roumingVideo\.php/.test(location.href)) {
     const target = panels[0];
     const source = panels[1];
     const firstTargetsChild = target.firstElementChild;
-    console.log([panels, source, target, firstTargetsChild]);
+
     for (let i = 0; i < source.childNodes.length; i++) {
         const item = source.childNodes[i];
 
