@@ -90,17 +90,27 @@ if (/roumingVideo\.php/.test(location.href)) {
     firstTargetsChild.style.display = 'inline-block';
 }
 
-function makePredictableLinks() {
-    const links = document.querySelectorAll('.roumingForumMessage a[rel="nofollow"]');
-    for (let i = 0; i < links.length; i++) {
-        const a = links.item(i);
+function deobfuscateLinks() {
+    document.querySelectorAll('.roumingForumMessage a[rel="nofollow"]').forEach((a) => {
         if (a.textContent.match(/^odkaz$/)) {
             a.textContent = a.href;
         }
-    }
+    });
+
+    document.querySelectorAll('.roumingForumMessage u').forEach((u) => {
+        const parent = u.parentNode;
+        const url = u.textContent;
+        const a = document.createElement('a');
+        a.textContent = url;
+        a.setAttribute('href', url);
+        a.setAttribute('target', '_blank');
+        // Security shield, @see: https://developers.google.com/web/tools/lighthouse/audits/noopener
+        a.setAttribute('rel', 'nofollow noreferrer noopener');
+        parent.replaceChild(a, u);
+    });
 }
 
-makePredictableLinks();
+deobfuscateLinks();
 
 function scaleToScreen(parent, img) {
     toggleScale(img);
