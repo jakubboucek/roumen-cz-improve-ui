@@ -13,7 +13,7 @@ td[height="104"] {
 }
 
 .showSidebar .roumingList .sidebar {
-    display: table-cell;
+    display: table-cell !important;
 }
 
 
