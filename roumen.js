@@ -161,6 +161,10 @@ function arrowHandler(event) {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
         return;
     }
+    const tagName = event.target && event.target.nodeName && event.target.nodeName.toLowerCase();
+    if (['button', 'datalist', 'input', 'meter', 'output', 'select', 'textarea'].includes(tagName)) {
+        return;
+    }
     if (event.code === 'ArrowRight' || event.code === 'KeyJ') {
         button = document.querySelector(
             '.roumingButton a[title="Starší obrázek"],'
