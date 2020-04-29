@@ -9,6 +9,7 @@
 
 let scaleHandler;
 let saveHandler;
+let controlsHandler;
 let olderButton;
 let targetA;
 
@@ -31,6 +32,9 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
         } else {
             document.body.classList.remove('showSidebar');
         }
+    }
+    if (changes.enableVideoControls && controlsHandler) {
+        controlsHandler(changes.enableVideoControls.newValue);
     }
 });
 
@@ -65,6 +69,16 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
                 setSaveHandler(source);
             }
         }
+        controlsHandler = (value) => {
+            video.controls = value ?? !video.controls;
+        };
+        chrome.storage.sync.get({
+            enableVideoControls: false
+        }, function (options) {
+            if (options.enableVideoControls === true) {
+                controlsHandler();
+            }
+        });
     } else {
         const gif = targetA.querySelector('img[border="0"]');
         setSaveHandler(gif);
@@ -190,6 +204,8 @@ function arrowHandler(event) {
             + '.masoList a[title="Zobrazit jiný GIF"]');
     } else if (event.code === 'KeyP' && scaleHandler) {
         scaleHandler(event);
+    } else if (event.code === 'KeyC' && controlsHandler) {
+        controlsHandler();
     } else if (event.code === 'KeyM') {
         button = document.querySelector(
             '.roumingButton a[name="audioSwitch"],'

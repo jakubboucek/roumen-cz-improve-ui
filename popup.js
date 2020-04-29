@@ -7,6 +7,7 @@ window.addEventListener('load', init);
 
 function init() {
     registerOption('#show-sidebar', 'showSidebar', true);
+    registerOption('#show-video-controls', 'enableVideoControls', false);
 }
 
 function registerOption(checkboxSelector, optionsKey, defaultValue, callback) {
