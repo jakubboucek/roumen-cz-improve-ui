@@ -39,8 +39,11 @@ a img {
     top: 10px;
     left: 10px;
     opacity: 0;
-    transition: opacity .4s linear;
+    transition: opacity .2s linear;
     z-index: 100;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 5px;
+    border-radius: 6px;
 }
 
 .scaledRouming:hover .floatPanel {
