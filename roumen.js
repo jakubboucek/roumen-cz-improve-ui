@@ -149,7 +149,7 @@ function scaleToScreen(parent, img) {
 
 function toggleScale(img) {
     if (img.classList.contains('scaled')) {
-        img.className = img.classList.remove('scaled');
+        img.classList.remove('scaled');
         img.style.maxHeight = img.naturalHeight + 'px';
         img.style.maxWidth = img.naturalWidth + 'px';
     } else {
