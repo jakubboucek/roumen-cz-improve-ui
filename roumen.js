@@ -85,6 +85,16 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
     }
 }
 
+if (/roumingLinks\.php/.test(location.href)) {
+    const a = document.querySelectorAll('.roumingList table td a[target="odkaznik"]');
+
+    a.forEach((a) => {
+        a.setAttribute('target', '_blank');
+        // Security shield, @see: https://developers.google.com/web/tools/lighthouse/audits/noopener
+        a.relList.add('noopener');
+    });
+}
+
 if (/roumingVideo\.php/.test(location.href)) {
     const panels = document.querySelectorAll('.control');
     const target = panels[0];
@@ -119,7 +129,7 @@ function deobfuscateLinks() {
         a.setAttribute('href', url);
         a.setAttribute('target', '_blank');
         // Security shield, @see: https://developers.google.com/web/tools/lighthouse/audits/noopener
-        a.setAttribute('rel', 'nofollow noreferrer noopener');
+        a.relList.add('noopener');
         parent.replaceChild(a, u);
     });
 }
