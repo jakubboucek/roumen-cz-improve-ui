@@ -19,6 +19,7 @@ const getOption = (() => {
         const options = {
             showSidebar: true,
             enableVideoControls: false,
+            videoVolume: null
         };
         chrome.storage.sync.get(options, function (options) {
             resolve(options);
@@ -101,6 +102,23 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
                 controlsHandler(true);
             }
         });
+
+        let volume = null;
+        getOption('videoVolume').then((videoVolume) => {
+            if (videoVolume !== null) {
+                video.volume = volume = videoVolume;
+            }
+        });
+        const volumeHandler = (event) => {
+            const videoVolume = event.target.volume;
+            // Prevent event infinite loop
+            if (volume === videoVolume) {
+                return;
+            }
+            setOption('videoVolume', videoVolume);
+        };
+        video.addEventListener('volumechange', volumeHandler, {capture: false, passive: true});
+
     } else {
         const gif = targetA.querySelector('img[border="0"]');
         setSaveHandler(gif);
