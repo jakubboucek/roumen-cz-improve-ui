@@ -13,10 +13,34 @@ let controlsHandler;
 let olderButton;
 let targetA;
 
-chrome.storage.sync.get({
-    showSidebar: true
-}, function (options) {
-    if (options.showSidebar === true) {
+const getOption = (() => {
+    // Async Preload all options
+    const optionsPromise = new Promise((resolve) => {
+        const options = {
+            showSidebar: true,
+            enableVideoControls: false,
+        };
+        chrome.storage.sync.get(options, function (options) {
+            resolve(options);
+        });
+    });
+
+    // provide async getter for option
+    return async (key) => {
+        const options = await optionsPromise;
+        if (options.hasOwnProperty(key) === false)
+            throw new Error(`Option '${key}' doesn't exists.`);
+
+        return options[key];
+    }
+})();
+
+const setOption = (key, value) => {
+    chrome.storage.sync.set({[key]: value});
+};
+
+getOption('showSidebar').then((showSidebar) => {
+    if (showSidebar) {
         document.body.classList.add('showSidebar');
     }
 });
@@ -72,11 +96,9 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
         controlsHandler = (value) => {
             video.controls = value ?? !video.controls;
         };
-        chrome.storage.sync.get({
-            enableVideoControls: false
-        }, function (options) {
-            if (options.enableVideoControls === true) {
-                controlsHandler();
+        getOption('enableVideoControls').then((enableVideoControls) => {
+            if (enableVideoControls) {
+                controlsHandler(true);
             }
         });
     } else {
