@@ -19,7 +19,8 @@ const getOption = (() => {
         const options = {
             showSidebar: true,
             enableVideoControls: false,
-            videoVolume: null
+            videoVolume: null,
+            skipDisliked: true
         };
         chrome.storage.sync.get(options, function (options) {
             resolve(options);
@@ -60,6 +61,23 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
     }
     if (changes.enableVideoControls && controlsHandler) {
         controlsHandler(changes.enableVideoControls.newValue);
+    }
+});
+
+getOption('skipDisliked').then((skipDisliked) => {
+    if (skipDisliked) {
+        if (/(rouming|maso)Show\.php/.test(location.href)) {
+            const olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
+            const likeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"]');
+            const likesCount = likeBtn ? parseInt(likeBtn.text) : 0;
+            const dislikeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi nelíbí"]');
+            const dislikesCount = likeBtn ? Math.abs(parseInt(dislikeBtn.text)) : 0;
+            if (dislikesCount > likesCount) {
+                if (olderButton) {
+                    if (document.referrer !== olderButton.href) olderButton.click(); // the user is allowed to go back to autoskipped image
+                }
+            }
+        }
     }
 });
 
