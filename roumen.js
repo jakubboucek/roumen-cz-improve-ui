@@ -65,9 +65,13 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
 });
 
 if (/(rouming|maso)Show\.php/.test(location.href)) {
-    olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
+    const olderButtons = document.querySelectorAll('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
+    olderButton = olderButtons[0];
     targetA = document.querySelector('td[height="600"] a');
     targetA.href = olderButton.href;
+
+    const links = Array.from(olderButtons);
+    links.push(targetA);
 
     getOption('skipDisliked').then((skipDisliked) => {
         if (!skipDisliked) return;
@@ -84,7 +88,7 @@ if (/(rouming|maso)Show\.php/.test(location.href)) {
 
         const nextUrl = new URL(olderButton.href);
         nextUrl.searchParams.set('_ruia', 'next');
-        targetA.href = olderButton.href = nextUrl.toString();
+        links.forEach((link) => link.href = nextUrl.toString());
 
         // Skip disliked images is allowed only when is triggered by olderButton (and similar)
         if (!isAutoNext) return;
