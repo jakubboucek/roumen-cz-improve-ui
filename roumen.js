@@ -20,7 +20,7 @@ const getOption = (() => {
             showSidebar: true,
             enableVideoControls: false,
             videoVolume: null,
-            skipDisliked: true
+            skipDisliked: false
         };
         chrome.storage.sync.get(options, function (options) {
             resolve(options);
