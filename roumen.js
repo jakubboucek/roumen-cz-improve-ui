@@ -155,7 +155,7 @@ if (/roumingVideo\.php/.test(location.href)) {
 }
 
 function deobfuscateLinks() {
-    document.querySelectorAll('.roumingForumMessage a[rel="nofollow"]').forEach((a) => {
+    document.querySelectorAll('.roumingForumMessage a[rel~="nofollow"]').forEach((a) => {
         if (a.textContent.match(/^odkaz$/)) {
             a.textContent = a.href;
         }
