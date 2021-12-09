@@ -64,27 +64,43 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
     }
 });
 
-getOption('skipDisliked').then((skipDisliked) => {
-    if (skipDisliked) {
-        if (/(rouming|maso)Show\.php/.test(location.href)) {
-            const olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
-            const likeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"]');
-            const likesCount = likeBtn ? parseInt(likeBtn.text) : 0;
-            const dislikeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi nelíbí"]');
-            const dislikesCount = likeBtn ? Math.abs(parseInt(dislikeBtn.text)) : 0;
-            if (dislikesCount > likesCount) {
-                if (olderButton) {
-                    if (document.referrer !== olderButton.href) olderButton.click(); // the user is allowed to go back to autoskipped image
-                }
-            }
-        }
-    }
-});
-
 if (/(rouming|maso)Show\.php/.test(location.href)) {
     olderButton = document.querySelector('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
     targetA = document.querySelector('td[height="600"] a');
     targetA.href = olderButton.href;
+
+    getOption('skipDisliked').then((skipDisliked) => {
+        if (!skipDisliked) return;
+
+        const url = new URL(location.href);
+        // RUIA = Rouming Ui Improve Action
+        const isAutoNext = url.searchParams.get('_ruia') === 'next';
+
+        if (isAutoNext) {
+            // Remove appended parameter
+            url.searchParams.delete('_ruia');
+            history.replaceState(null, document.title, url);
+        }
+
+        const nextUrl = new URL(olderButton.href);
+        nextUrl.searchParams.set('_ruia', 'next');
+        targetA.href = olderButton.href = nextUrl.toString();
+
+        // Skip disliked images is allowed only when is triggered by olderButton (and similar)
+        if (!isAutoNext) return;
+
+        const likeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"]');
+        const dislikeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi nelíbí"]');
+        if (!likeBtn || !dislikeBtn) return;
+
+        const rating = [parseInt(likeBtn.textContent), parseInt(dislikeBtn.textContent)]
+            .map((val) => Number.isNaN(val) ? 0 : val)
+            .reduce((cur, prev) => cur + prev, 0);
+
+        if (rating < 0) {
+            location.assign(nextUrl);
+        }
+    });
 
     const targetImg = document.querySelector('td[height="600"] a img');
     scaleToScreen(targetA, targetImg);
@@ -230,8 +246,8 @@ function toggleScale(img) {
 function setSaveHandler(img) {
     saveHandler = function () {
         const link = document.createElement('a');
-        link.setAttribute("href", img.src);
-        link.setAttribute("download", "");
+        link.setAttribute('href', img.src);
+        link.setAttribute('download', '');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -282,14 +298,22 @@ function arrowHandler(event) {
     } else if (event.code === 'KeyS' && saveHandler) {
         saveHandler(event);
     }
-    if (button) {
-        button.classList.add('activated');
-        window.setTimeout(function () {
-            button.classList.remove('activated')
-        }, 300);
-        button.click();
-        event.preventDefault();
-    }
+
+    if (!button) return;
+
+    button.classList.add('activated');
+    window.setTimeout(function () {
+        button.classList.remove('activated')
+    }, 300);
+
+    button.click();
+
+    event.preventDefault();
 }
 
 window.addEventListener('keydown', arrowHandler, {capture: true, passive: false});
+
+// Remove conflicting arrow handler by Roumen
+const script = document.createElement('script');
+script.innerHTML = 'window.arrowHandler = ()=>{};';
+document.head.appendChild(script);
