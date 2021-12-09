@@ -15,3 +15,4 @@ Install from Chrome Web Store: [**Rouming.cz improve UI**](https://chrome.google
 - Switch controls on video in GIFník with `C` key.
 - Save image as file, or open source of video/gif with `S` key
 - De-obfuscating links in forum and comments
+- Skip images with unpopular rating
