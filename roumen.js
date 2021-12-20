@@ -119,8 +119,7 @@ if (/(rouming|maso)Show\.php/.test(location.href)) {
 
 if (/(rouming|maso)GIF\.php/.test(location.href)) {
     olderButton = document.querySelector('.roumingButton a[title="Starší GIF"]');
-    targetA = document.querySelector('td.roumingForumMessage[align="center"] a,td.masoForumMessage[align="center"] a');
-    targetA.href = olderButton.href;
+    targetA = document.querySelector('td.roumingForumMessage[align="center"],td.masoForumMessage[align="center"]');
 
     const video = targetA.querySelector("video");
     if (video) {
