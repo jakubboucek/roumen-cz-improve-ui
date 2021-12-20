@@ -7,7 +7,6 @@ window.addEventListener('load', init);
 
 function init() {
     registerOption('#show-sidebar', 'showSidebar', true);
-    registerOption('#show-video-controls', 'enableVideoControls', false);
     registerOption('#skip-disliked', 'skipDisliked', false);
 }
 

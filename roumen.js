@@ -9,7 +9,6 @@
 
 let scaleHandler;
 let saveHandler;
-let controlsHandler;
 let olderButton;
 let targetA;
 
@@ -18,7 +17,6 @@ const getOption = (() => {
     const optionsPromise = new Promise((resolve) => {
         const options = {
             showSidebar: true,
-            enableVideoControls: false,
             videoVolume: null,
             skipDisliked: false
         };
@@ -58,9 +56,6 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
         } else {
             document.body.classList.remove('showSidebar');
         }
-    }
-    if (changes.enableVideoControls && controlsHandler) {
-        controlsHandler(changes.enableVideoControls.newValue);
     }
 });
 
@@ -131,14 +126,6 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
                 setSaveHandler(source);
             }
         }
-        controlsHandler = (value) => {
-            video.controls = value ?? !video.controls;
-        };
-        getOption('enableVideoControls').then((enableVideoControls) => {
-            if (enableVideoControls) {
-                controlsHandler(true);
-            }
-        });
 
         let volume = null;
         getOption('videoVolume').then((videoVolume) => {
@@ -291,8 +278,6 @@ function arrowHandler(event) {
             + '.masoList a[title="Zobrazit jiný GIF"]');
     } else if (event.code === 'KeyP' && scaleHandler) {
         scaleHandler(event);
-    } else if (event.code === 'KeyC' && controlsHandler) {
-        controlsHandler();
     } else if (event.code === 'KeyM') {
         button = document.querySelector(
             '.roumingButton a[name="audioSwitch"],'
