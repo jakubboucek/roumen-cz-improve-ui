@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <script async>
+        (function () {
+            const video = document.querySelector('td.roumingForumMessage[align="center"] video, td.masoForumMessage[align="center"] video');
+            if (video === null) return;
+
+            let volume = localStorage.getItem('gifnik-volume');
+            let muted = localStorage.getItem('gifnik-muted');
+            video.volume = volume !== null ? JSON.parse(volume) : video.volume;
+            video.muted = muted !== null ? JSON.parse(muted) : video.muted;
+
+
+            const volumeHandler = function () {
+                volume = video.volume;
+                muted = video.muted;
+                localStorage.setItem('gifnik-volume', JSON.stringify(volume));
+                localStorage.setItem('gifnik-muted', JSON.stringify(muted));
+            };
+
+            video.addEventListener('volumechange', volumeHandler, {capture: false, passive: true});
+        })();
+    </script>
+</head>
+</html>
