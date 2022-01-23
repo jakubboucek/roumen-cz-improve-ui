@@ -1,4 +1,5 @@
 let scaleHandler;
+let muteHandler;
 let saveHandler;
 let olderButton;
 let targetA;
@@ -113,6 +114,9 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
             }
         }
 
+        muteHandler = () => {
+            video.muted = !video.muted;
+        };
     } else {
         const gif = targetA.querySelector('img[border="0"]');
         setSaveHandler(gif);
@@ -248,11 +252,8 @@ function arrowHandler(event) {
             + '.masoList a[title="Zobrazit jiný GIF"]');
     } else if (event.code === 'KeyP' && scaleHandler) {
         scaleHandler(event);
-    } else if (event.code === 'KeyM') {
-        button = document.querySelector(
-            '.roumingButton a[name="audioSwitch"],'
-            + '.roumingButton a[title="Vypnout audio"],'
-            + '.roumingButton a[title="Zapnout audio"]');
+    } else if (event.code === 'KeyM' && muteHandler) {
+        muteHandler();
     } else if (event.code === 'KeyS' && saveHandler) {
         saveHandler(event);
     }
