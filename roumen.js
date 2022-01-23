@@ -17,7 +17,6 @@ const getOption = (() => {
     const optionsPromise = new Promise((resolve) => {
         const options = {
             showSidebar: true,
-            videoVolume: null,
             skipDisliked: false
         };
         chrome.storage.sync.get(options, function (options) {
@@ -126,22 +125,6 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
                 setSaveHandler(source);
             }
         }
-
-        let volume = null;
-        getOption('videoVolume').then((videoVolume) => {
-            if (videoVolume !== null) {
-                video.volume = volume = videoVolume;
-            }
-        });
-        const volumeHandler = (event) => {
-            const videoVolume = event.target.volume;
-            // Prevent event infinite loop
-            if (volume === videoVolume) {
-                return;
-            }
-            setOption('videoVolume', videoVolume);
-        };
-        video.addEventListener('volumechange', volumeHandler, {capture: false, passive: true});
 
     } else {
         const gif = targetA.querySelector('img[border="0"]');
