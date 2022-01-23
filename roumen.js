@@ -34,10 +34,6 @@ const getOption = (() => {
     }
 })();
 
-const setOption = (key, value) => {
-    chrome.storage.sync.set({[key]: value});
-};
-
 getOption('showSidebar').then((showSidebar) => {
     if (showSidebar) {
         document.body.classList.add('showSidebar');
