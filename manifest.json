@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Rouming.cz improve UI",
     "description": "Extension for improve IU for better UX on website Roumenův rouming (https://rouming.cz/)",
     "version": "1.10.0",
@@ -14,7 +14,7 @@
         "48": "rouming_48.png",
         "128": "rouming_128.png"
     },
-    "browser_action": {
+    "action": {
         "default_icon": {
             "16": "rouming_16.png",
             "48": "rouming_48.png",
@@ -38,6 +38,14 @@
         }
     ],
     "web_accessible_resources": [
-        "expand.svg"
+        {
+            "matches": [
+                "*://www.rouming.cz/*",
+                "*://www.roumenovomaso.cz/*"
+            ],
+            "resources": [
+                "expand.svg"
+            ]
+        }
     ]
 }

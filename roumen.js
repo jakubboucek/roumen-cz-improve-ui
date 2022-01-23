@@ -209,7 +209,7 @@ function scaleToScreen(parent, img) {
     parent.appendChild(floatPanel);
 
     const expandIcon = document.createElement('img');
-    expandIcon.src = chrome.extension.getURL('/expand.svg');
+    expandIcon.src = chrome.runtime.getURL('/expand.svg');
     expandIcon.width = 24;
     expandIcon.title = 'Zobrazit původní velikost obrázku';
     floatPanel.appendChild(expandIcon);
