@@ -9,6 +9,6 @@ echo "OK"
 
 echo "Creating ZIP release... "
 mkdir -p $DIR/dist
-find $DIR -type f -depth 1 -not -name '.*' -not -name '*.sh' | zip -j $RELEASE_FILE -@
+find $DIR -type f -depth 1 -not -name '.*' -not -name '*.sh' -not -name '*.md' | zip -j $RELEASE_FILE -@
 echo
 echo "Release prepared to $RELEASE_FILE"
