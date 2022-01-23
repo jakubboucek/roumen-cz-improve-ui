@@ -1,12 +1,3 @@
-/**
- * @var chrome
- * @see https://developer.chrome.com/extensions/api_index
- */
-/** @var chrome.storage.onChanged */
-/** @var chrome.storage.onChanged.addListener */
-/** @var chrome.extension */
-/** @var chrome.extension.getUrl */
-
 let scaleHandler;
 let saveHandler;
 let olderButton;
