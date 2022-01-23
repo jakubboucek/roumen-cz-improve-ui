@@ -1,13 +1,5 @@
-/**
- * @var chrome
- * @see https://developer.chrome.com/extensions/api_index
- */
-/** @var chrome.storage.onChanged */
-/** @var chrome.storage.onChanged.addListener */
-/** @var chrome.extension */
-/** @var chrome.extension.getUrl */
-
 let scaleHandler;
+let muteHandler;
 let saveHandler;
 let olderButton;
 let targetA;
@@ -17,7 +9,6 @@ const getOption = (() => {
     const optionsPromise = new Promise((resolve) => {
         const options = {
             showSidebar: true,
-            videoVolume: null,
             skipDisliked: false
         };
         chrome.storage.sync.get(options, function (options) {
@@ -34,10 +25,6 @@ const getOption = (() => {
         return options[key];
     }
 })();
-
-const setOption = (key, value) => {
-    chrome.storage.sync.set({[key]: value});
-};
 
 getOption('showSidebar').then((showSidebar) => {
     if (showSidebar) {
@@ -127,22 +114,9 @@ if (/(rouming|maso)GIF\.php/.test(location.href)) {
             }
         }
 
-        let volume = null;
-        getOption('videoVolume').then((videoVolume) => {
-            if (videoVolume !== null) {
-                video.volume = volume = videoVolume;
-            }
-        });
-        const volumeHandler = (event) => {
-            const videoVolume = event.target.volume;
-            // Prevent event infinite loop
-            if (volume === videoVolume) {
-                return;
-            }
-            setOption('videoVolume', videoVolume);
+        muteHandler = () => {
+            video.muted = !video.muted;
         };
-        video.addEventListener('volumechange', volumeHandler, {capture: false, passive: true});
-
     } else {
         const gif = targetA.querySelector('img[border="0"]');
         setSaveHandler(gif);
@@ -278,11 +252,8 @@ function arrowHandler(event) {
             + '.masoList a[title="Zobrazit jiný GIF"]');
     } else if (event.code === 'KeyP' && scaleHandler) {
         scaleHandler(event);
-    } else if (event.code === 'KeyM') {
-        button = document.querySelector(
-            '.roumingButton a[name="audioSwitch"],'
-            + '.roumingButton a[title="Vypnout audio"],'
-            + '.roumingButton a[title="Zapnout audio"]');
+    } else if (event.code === 'KeyM' && muteHandler) {
+        muteHandler();
     } else if (event.code === 'KeyS' && saveHandler) {
         saveHandler(event);
     }

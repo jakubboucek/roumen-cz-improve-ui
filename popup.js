@@ -1,8 +1,3 @@
-/**
- * @var chrome
- * @see https://developer.chrome.com/extensions/api_index
- */
-
 window.addEventListener('load', init);
 
 function init() {
