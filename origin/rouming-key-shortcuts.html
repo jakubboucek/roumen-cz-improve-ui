@@ -1,0 +1,24 @@
+<script language="JavaScript" type="text/javascript" defer>
+    (() => {
+        function arrowHandler(e) {
+            console.log(e);
+            if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+
+            let button = null;
+            switch (e.key) {
+                case "ArrowLeft":
+                    button = document.getElementById('prevImage');
+                    break;
+                case "ArrowRight":
+                    button = document.getElementById('nextImage');
+                    break;
+            }
+            if(button) {
+                location.assign(button.href);
+            }
+            e.preventDefault();
+        }
+
+        window.addEventListener('keydown', arrowHandler, {capture: true, passive: false});
+    })();
+</script>
