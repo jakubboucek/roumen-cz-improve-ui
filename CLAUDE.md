@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Chrome rozšíření **„Rouming.cz improve UI"** – content script vylepšující UX webů www.rouming.cz a www.roumenovomaso.cz (klávesové zkratky, škálování obrázků, deobfuskace odkazů, přeskakování nepopulárních obrázků, mute videí v GIFníku…). Žádný build systém, žádné závislosti, žádné testy – čistý vanilla JS nasazovaný přímo.
 
-Manifest je **v2** (`manifest.json`), používá `chrome.storage.sync` a `chrome.extension.getURL()`.
+Manifest je **v3** (`manifest.json`), používá `chrome.storage.sync` a `chrome.runtime.getURL()`. Bez background scriptu / service workeru – jen content script + popup.
 
 ## Struktura
 
