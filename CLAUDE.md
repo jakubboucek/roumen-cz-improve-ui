@@ -32,6 +32,8 @@ Jeden content script, který podle URL (regex na `location.href`) větví chová
 - `roumingLinks.php` – odkazník: `target="_blank"` + `noopener`
 - `roumingVideo.php` – kopírování ovládacích prvků mezi panely
 
+> **Redesign webu (2026):** Rouming i Maso prošly redesignem – detail obrázku je v `div.wrapper > a` (Rouming) / `div.flex-pic > a` (Maso), staré `td[height="600"]` zmizelo. Web má **vlastní** `window.arrowHandler` pro šipky na Show a GIF stránkách (tlačítka `#leftImage`/`#rightImage`/`#leftGif`/`#rightGif`) a **vlastní šířkové škálování obrázků** (`max-width: 100%`; výškové dělá dál rozšíření). Rozšíření proto šipky na těchto stránkách nechává webu a přidává jen `J`/`K`; na video stránce (bez nativního handleru) obsluhuje oboje. Like tlačítko GIFů je nově v `.roumingButton` (dřív `.roumingForumTitle`) a hlasuje se přes `javascript:vote(...)` href. Maso nemá dislike tlačítko → skip disliked je tam neaktivní.
+
 Průřezové mechanismy:
 
 - **Selektory cílí na DOM webu Rouming** – prvky se hledají přes `title` atributy českých tooltipů (např. `a[title="Starší obrázek"]`). Křehké vůči změnám webu; při úpravách zachovat přesné znění titulků.
@@ -39,6 +41,18 @@ Průřezové mechanismy:
 - **Handlery `scaleHandler`/`muteHandler`/`saveHandler`** jsou globální proměnné nastavované podle typu stránky; zkratka se aktivuje jen tam, kde byl handler nastaven.
 - **Nastavení** – async getter `getOption(key)` nad `chrome.storage.sync` (výchozí hodnoty definované v `roumen.js`); změny se propagují živě přes `chrome.storage.onChanged`.
 - **Skip disliked** – parametr `_ruia=next` (Rouming Ui Improve Action) v URL označuje automatickou navigaci; obrázek se záporným ratingem (like + dislike < 0) se přeskočí na další.
+
+## Testování
+
+Projekt nemá automatické testy. Manuální/agentní testování probíhá přes MCP server `chrome-devtools-ext` (definovaný v `.mcp.json` – chrome-devtools-mcp s `--categoryExtensions=true` a `--isolated=true`):
+
+1. `install_extension` s absolutní cestou k rootu repa (repo = unpacked extension)
+2. Navigace na živé stránky (`https://www.rouming.cz/roumingShow.php`, GIFník…) – extension nemá lokální server, testuje se proti produkci
+3. Ověřit: žádné console errors, DOM aserce (`body.showSidebar`, `.floatPanel`, prefetch link), simulace klávesových zkratek
+4. Popup: `trigger_extension_action` nebo otevřít `chrome-extension://<id>/popup.html`
+5. Po každé úpravě kódu `reload_extension` a ověřit znovu
+
+Pozn.: Extension tools fungují jen s pipe connection (MCP si spouští vlastní Chrome), ne přes `--browserUrl`.
 
 ## Release
 
