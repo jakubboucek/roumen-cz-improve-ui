@@ -32,6 +32,8 @@ Jeden content script, který podle URL (regex na `location.href`) větví chová
 - `roumingLinks.php` – odkazník: `target="_blank"` + `noopener`
 - `roumingVideo.php` – kopírování ovládacích prvků mezi panely
 
+> **⚠️ Stav k červenci 2026 – redesign webu:** Rouming i Maso prošly redesignem, který rozbil část rozšíření. Detail obrázku už nepoužívá `td[height="600"]` (obrázek je v `div.wrapper` / `div.flex-pic`), takže celý blok pro `*Show.php` padá na TypeError (scale-to-screen, prefetch, skip disliked, odkaz na starší obrázek – vše nefunkční). Web navíc nově má **vlastní** `window.arrowHandler` (šipky) a **vlastní škálování obrázků** (`max-width: 100%`), navigační tlačítka mají `id="leftImage"`/`rightImage`/`rightGif`. GIFník, odkazník i video stránka fungují dál (ověřeno testem).
+
 Průřezové mechanismy:
 
 - **Selektory cílí na DOM webu Rouming** – prvky se hledají přes `title` atributy českých tooltipů (např. `a[title="Starší obrázek"]`). Křehké vůči změnám webu; při úpravách zachovat přesné znění titulků.
@@ -39,6 +41,18 @@ Průřezové mechanismy:
 - **Handlery `scaleHandler`/`muteHandler`/`saveHandler`** jsou globální proměnné nastavované podle typu stránky; zkratka se aktivuje jen tam, kde byl handler nastaven.
 - **Nastavení** – async getter `getOption(key)` nad `chrome.storage.sync` (výchozí hodnoty definované v `roumen.js`); změny se propagují živě přes `chrome.storage.onChanged`.
 - **Skip disliked** – parametr `_ruia=next` (Rouming Ui Improve Action) v URL označuje automatickou navigaci; obrázek se záporným ratingem (like + dislike < 0) se přeskočí na další.
+
+## Testování
+
+Projekt nemá automatické testy. Manuální/agentní testování probíhá přes MCP server `chrome-devtools-ext` (definovaný v `.mcp.json` – chrome-devtools-mcp s `--categoryExtensions=true` a `--isolated=true`):
+
+1. `install_extension` s absolutní cestou k rootu repa (repo = unpacked extension)
+2. Navigace na živé stránky (`https://www.rouming.cz/roumingShow.php`, GIFník…) – extension nemá lokální server, testuje se proti produkci
+3. Ověřit: žádné console errors, DOM aserce (`body.showSidebar`, `.floatPanel`, prefetch link), simulace klávesových zkratek
+4. Popup: `trigger_extension_action` nebo otevřít `chrome-extension://<id>/popup.html`
+5. Po každé úpravě kódu `reload_extension` a ověřit znovu
+
+Pozn.: Extension tools fungují jen s pipe connection (MCP si spouští vlastní Chrome), ne přes `--browserUrl`.
 
 ## Release
 
