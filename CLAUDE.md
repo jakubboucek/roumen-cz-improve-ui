@@ -32,7 +32,7 @@ Jeden content script, který podle URL (regex na `location.href`) větví chová
 - `roumingLinks.php` – odkazník: `target="_blank"` + `noopener`
 - `roumingVideo.php` – kopírování ovládacích prvků mezi panely
 
-> **⚠️ Stav k červenci 2026 – redesign webu:** Rouming i Maso prošly redesignem, který rozbil část rozšíření. Detail obrázku už nepoužívá `td[height="600"]` (obrázek je v `div.wrapper` / `div.flex-pic`), takže celý blok pro `*Show.php` padá na TypeError (scale-to-screen, prefetch, skip disliked, odkaz na starší obrázek – vše nefunkční). Web navíc nově má **vlastní** `window.arrowHandler` (šipky) a **vlastní škálování obrázků** (`max-width: 100%`), navigační tlačítka mají `id="leftImage"`/`rightImage`/`rightGif`. GIFník, odkazník i video stránka fungují dál (ověřeno testem).
+> **Redesign webu (2026):** Rouming i Maso prošly redesignem – detail obrázku je v `div.wrapper > a` (Rouming) / `div.flex-pic > a` (Maso), staré `td[height="600"]` zmizelo. Web má **vlastní** `window.arrowHandler` pro šipky na Show a GIF stránkách (tlačítka `#leftImage`/`#rightImage`/`#leftGif`/`#rightGif`) a **vlastní šířkové škálování obrázků** (`max-width: 100%`; výškové dělá dál rozšíření). Rozšíření proto šipky na těchto stránkách nechává webu a přidává jen `J`/`K`; na video stránce (bez nativního handleru) obsluhuje oboje. Like tlačítko GIFů je nově v `.roumingButton` (dřív `.roumingForumTitle`) a hlasuje se přes `javascript:vote(...)` href. Maso nemá dislike tlačítko → skip disliked je tam neaktivní.
 
 Průřezové mechanismy:
 

@@ -49,54 +49,59 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
 if (/(rouming|maso)Show\.php/.test(location.href)) {
     const olderButtons = document.querySelectorAll('.roumingButton a[title="Starší obrázek"],.masoButton a[title="Starší obrázek"]');
     olderButton = olderButtons[0];
-    targetA = document.querySelector('td[height="600"] a');
-    targetA.href = olderButton.href;
+    // Main image link, points to the newer image by default
+    // (.wrapper on Rouming, .flex-pic on Maso)
+    targetA = document.querySelector('.wrapper > a, .flex-pic > a');
+    const targetImg = targetA ? targetA.querySelector('img') : null;
 
-    const links = Array.from(olderButtons);
-    links.push(targetA);
+    // Pages without an image (e.g. missing ?file= param) lack these elements
+    if (olderButton && targetA && targetImg) {
+        targetA.href = olderButton.href;
 
-    getOption('skipDisliked').then((skipDisliked) => {
-        if (!skipDisliked) return;
+        const links = Array.from(olderButtons);
+        links.push(targetA);
 
-        const url = new URL(location.href);
-        // RUIA = Rouming Ui Improve Action
-        const isAutoNext = url.searchParams.get('_ruia') === 'next';
+        getOption('skipDisliked').then((skipDisliked) => {
+            if (!skipDisliked) return;
 
-        if (isAutoNext) {
-            // Remove appended parameter
-            url.searchParams.delete('_ruia');
-            history.replaceState(null, document.title, url);
-        }
+            const url = new URL(location.href);
+            // RUIA = Rouming Ui Improve Action
+            const isAutoNext = url.searchParams.get('_ruia') === 'next';
 
-        const nextUrl = new URL(olderButton.href);
-        nextUrl.searchParams.set('_ruia', 'next');
-        links.forEach((link) => link.href = nextUrl.toString());
+            if (isAutoNext) {
+                // Remove appended parameter
+                url.searchParams.delete('_ruia');
+                history.replaceState(null, document.title, url);
+            }
 
-        // Skip disliked images is allowed only when is triggered by olderButton (and similar)
-        if (!isAutoNext) return;
+            const nextUrl = new URL(olderButton.href);
+            nextUrl.searchParams.set('_ruia', 'next');
+            links.forEach((link) => link.href = nextUrl.toString());
 
-        const likeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"]');
-        const dislikeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi nelíbí"]');
-        if (!likeBtn || !dislikeBtn) return;
+            // Skip disliked images is allowed only when is triggered by olderButton (and similar)
+            if (!isAutoNext) return;
 
-        const rating = [parseInt(likeBtn.textContent), parseInt(dislikeBtn.textContent)]
-            .map((val) => Number.isNaN(val) ? 0 : val)
-            .reduce((cur, prev) => cur + prev, 0);
+            const likeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],.masoButton a[title="Tento obrázek se mi líbí"]');
+            const dislikeBtn = document.querySelector('.roumingButton a[title="Tento obrázek se mi nelíbí"],.masoButton a[title="Tento obrázek se mi nelíbí"]');
+            if (!likeBtn || !dislikeBtn) return;
 
-        if (rating < 0) {
-            location.assign(nextUrl);
-        }
-    });
+            const rating = [parseInt(likeBtn.textContent), parseInt(dislikeBtn.textContent)]
+                .map((val) => Number.isNaN(val) ? 0 : val)
+                .reduce((cur, prev) => cur + prev, 0);
 
-    const targetImg = document.querySelector('td[height="600"] a img');
-    scaleToScreen(targetA, targetImg);
-    setSaveHandler(targetImg);
+            if (rating < 0) {
+                location.assign(nextUrl);
+            }
+        });
 
-    const head = document.head;
-    const prefetch = document.createElement('link');
-    prefetch.rel = 'prefetch';
-    prefetch.href = olderButton.href;
-    head.appendChild(prefetch);
+        scaleToScreen(targetA, targetImg);
+        setSaveHandler(targetImg);
+
+        const prefetch = document.createElement('link');
+        prefetch.rel = 'prefetch';
+        prefetch.href = olderButton.href;
+        document.head.appendChild(prefetch);
+    }
 }
 
 if (/(rouming|maso)GIF\.php/.test(location.href)) {
@@ -227,30 +232,36 @@ function arrowHandler(event) {
     if (['button', 'datalist', 'input', 'meter', 'output', 'select', 'textarea'].includes(tagName)) {
         return;
     }
+    // Arrow keys are handled natively by the site on Show and GIF pages,
+    // the extension adds J/K there and handles both key sets on the Video page
     if (event.code === 'ArrowRight' || event.code === 'KeyJ') {
-        button = document.querySelector(
-            '.masoButton a[title="Starší obrázek"],'
-            + '.roumingButton a[title="Následující video"],'
-            + '.roumingButton a[title="Starší GIF"]');
+        button = document.querySelector('.roumingButton a[title="Následující video"]');
+        if (!button && event.code === 'KeyJ') {
+            button = document.querySelector(
+                '.roumingButton a[title="Starší obrázek"],'
+                + '.masoButton a[title="Starší obrázek"],'
+                + '.roumingButton a[title="Starší GIF"]');
+        }
     } else if (event.code === 'ArrowLeft' || event.code === 'KeyK') {
-        button = document.querySelector(
-            '.masoButton a[title="Novější obrázek"],'
-            + '.roumingButton a[title="Předchozí video"],'
-            + '.roumingButton a[title="Novější GIF"]');
+        button = document.querySelector('.roumingButton a[title="Předchozí video"]');
+        if (!button && event.code === 'KeyK') {
+            button = document.querySelector(
+                '.roumingButton a[title="Novější obrázek"],'
+                + '.masoButton a[title="Novější obrázek"],'
+                + '.roumingButton a[title="Novější GIF"]');
+        }
     } else if (event.code === 'KeyL') {
         button = document.querySelector(
             '.roumingButton a[title="Tento obrázek se mi líbí"],'
             + '.masoButton a[title="Tento obrázek se mi líbí"],'
-            + '.roumingForumTitle a[title="Tento GIF je super!"],'
-            + '.roumingForumTitle a[title="Toto video je super!"],'
-            + '.masoForumTitle a[title="Tento GIF je super!"]');
+            + '.roumingButton a[title="Tento GIF je super!"],'
+            + '.roumingForumTitle a[title="Toto video je super!"]');
     } else if (event.code === 'KeyR') {
         button = document.querySelector(
             '.roumingButton a[title="Zobrazit náhodně jiný obrázek"],'
             + '.masoButton a[title="Zobrazit jiný obrázek"],'
             + '.roumingSubMenu a[href="roumingVideo.php?action=random"],'
-            + '.roumingList .mw800 .control a[title="Zobrazit jiný GIF"],'
-            + '.masoList a[title="Zobrazit jiný GIF"]');
+            + '.roumingButton a[title="Zobrazit jiný GIF"]');
     } else if (event.code === 'KeyP' && scaleHandler) {
         scaleHandler(event);
     } else if (event.code === 'KeyM' && muteHandler) {
@@ -272,8 +283,3 @@ function arrowHandler(event) {
 }
 
 window.addEventListener('keydown', arrowHandler, {capture: true, passive: false});
-
-// // Remove conflicting arrow handler by Roumen
-// const script = document.createElement('script');
-// script.innerHTML = 'window.arrowHandler = ()=>{};';
-// document.head.appendChild(script);
