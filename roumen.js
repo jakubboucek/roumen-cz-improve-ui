@@ -229,23 +229,24 @@ function arrowHandler(event) {
     }
     if (event.code === 'ArrowRight' || event.code === 'KeyJ') {
         button = document.querySelector(
-            '.roumingButton a[title="Starší obrázek"],'
-            + '.masoButton a[title="Starší obrázek"],'
+            '.masoButton a[title="Starší obrázek"],'
             + '.roumingButton a[title="Následující video"],'
             + '.roumingButton a[title="Starší GIF"]');
     } else if (event.code === 'ArrowLeft' || event.code === 'KeyK') {
-        button = document.querySelector('.roumingButton a[title="Novější obrázek"],'
-            + '.masoButton a[title="Novější obrázek"],'
+        button = document.querySelector(
+            '.masoButton a[title="Novější obrázek"],'
             + '.roumingButton a[title="Předchozí video"],'
             + '.roumingButton a[title="Novější GIF"]');
     } else if (event.code === 'KeyL') {
-        button = document.querySelector('.roumingButton a[title="Tento obrázek se mi líbí"],'
+        button = document.querySelector(
+            '.roumingButton a[title="Tento obrázek se mi líbí"],'
             + '.masoButton a[title="Tento obrázek se mi líbí"],'
             + '.roumingForumTitle a[title="Tento GIF je super!"],'
             + '.roumingForumTitle a[title="Toto video je super!"],'
             + '.masoForumTitle a[title="Tento GIF je super!"]');
     } else if (event.code === 'KeyR') {
-        button = document.querySelector('.roumingButton a[title="Zobrazit náhodně jiný obrázek"],'
+        button = document.querySelector(
+            '.roumingButton a[title="Zobrazit náhodně jiný obrázek"],'
             + '.masoButton a[title="Zobrazit jiný obrázek"],'
             + '.roumingSubMenu a[href="roumingVideo.php?action=random"],'
             + '.roumingList .mw800 .control a[title="Zobrazit jiný GIF"],'
@@ -272,7 +273,7 @@ function arrowHandler(event) {
 
 window.addEventListener('keydown', arrowHandler, {capture: true, passive: false});
 
-// Remove conflicting arrow handler by Roumen
-const script = document.createElement('script');
-script.innerHTML = 'window.arrowHandler = ()=>{};';
-document.head.appendChild(script);
+// // Remove conflicting arrow handler by Roumen
+// const script = document.createElement('script');
+// script.innerHTML = 'window.arrowHandler = ()=>{};';
+// document.head.appendChild(script);
